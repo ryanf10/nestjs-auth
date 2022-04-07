@@ -5,7 +5,7 @@ enum Gender {
   FEMALE = 'female',
 }
 
-export class UserDto {
+export class CreateUserDto {
   @IsNotEmpty()
   readonly name: string;
 

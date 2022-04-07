@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { User } from './user.entity';
-import { UserDto } from './dto/user.dto';
+import { CreateUserDto } from './dtos/create-user.dto';
 import { USER_REPOSITORY } from '../../core/constants';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class UsersService {
     @Inject(USER_REPOSITORY) private readonly userRepository: typeof User,
   ) {}
 
-  async create(user: UserDto): Promise<User> {
+  async create(user: CreateUserDto): Promise<User> {
     return await this.userRepository.create<User>(user);
   }
 

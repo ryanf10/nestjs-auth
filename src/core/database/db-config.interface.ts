@@ -1,11 +1,10 @@
 export interface IDatabaseConfigAttributes {
-  username?: string;
-  password?: string;
-  database?: string;
+  dialect?: string;
   host?: string;
   port?: string | number;
-  dialect?: string;
-  urlDatabase?: string;
+  database?: string;
+  username?: string;
+  password?: string;
 }
 
 export interface IDatabaseConfig {

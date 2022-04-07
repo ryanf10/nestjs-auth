@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
-import { UserDto } from '../users/dto/user.dto';
+import { CreateUserDto } from '../users/dtos/create-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -21,7 +21,7 @@ export class AuthController {
   }
 
   @Post('signup')
-  async signUp(@Body() user: UserDto) {
+  async signUp(@Body() user: CreateUserDto) {
     return await this.authService.create(user);
   }
 }
