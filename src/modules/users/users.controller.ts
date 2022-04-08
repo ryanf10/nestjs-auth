@@ -17,18 +17,20 @@ export class UsersController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('/me')
-  profile(@Request() req) {
-    return this.userService.profile(req.user.id);
+  async profile(@Request() req) {
+    const result = await this.userService.profile(req.user.id);
+    return { user: result };
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Patch('/me')
   async updateProfile(@Request() req, @Body() body: UpdateUserDto) {
-    return await this.userService.updateProfile(
+    const result = await this.userService.updateProfile(
       req.user.id,
       body.name,
       body.gender,
     );
+    return { user: result };
   }
 
   @UseGuards(AuthGuard('jwt'))
