@@ -18,19 +18,19 @@ export class UsersController {
   @UseGuards(AuthGuard('jwt'))
   @Get('/me')
   async profile(@Request() req) {
-    const result = await this.userService.profile(req.user.id);
-    return { user: result };
+    const user = await this.userService.profile(req.user.id);
+    return { result: { user } };
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Patch('/me')
   async updateProfile(@Request() req, @Body() body: UpdateUserDto) {
-    const result = await this.userService.updateProfile(
+    const user = await this.userService.updateProfile(
       req.user.id,
       body.name,
       body.gender,
     );
-    return { user: result };
+    return { result: { user } };
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -41,5 +41,6 @@ export class UsersController {
       body.old_password,
       body.new_password,
     );
+    return { messages: 'Password changed successfully' };
   }
 }

@@ -9,7 +9,8 @@ async function bootstrap() {
     credentials: true,
     origin: process.env.CORS_ORIGIN_WHITELIST,
   });
-  app.use(cookieParser());
+
+  app.use(cookieParser(process.env.COOKIES_SECRET));
   //global prefix
   app.setGlobalPrefix('api/v1');
 
