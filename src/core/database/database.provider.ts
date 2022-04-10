@@ -17,23 +17,22 @@ export const databaseProvider = [
           config = databaseConfig.test;
           break;
         case PRODUCTION:
-          config = {
-            use_env_variable: 'DATABASE_URL_PRODUCTION',
-            dialect: 'postgres',
-            logging: false,
-            dialectOptions: {
-              ssl: {
-                require: true,
-                rejectUnauthorized: false,
-              },
+          config = databaseConfig.production;
+
+          config.dialectOptions = {
+            ssl: {
+              require: true,
+              rejectUnauthorized: false,
             },
           };
+
           forceSync = false;
           break;
         default:
           config = databaseConfig.development;
       }
       const sequelize = new Sequelize(config);
+      console.log(sequelize);
       sequelize.addModels([User]);
       await sequelize.sync({ force: forceSync });
       return sequelize;
