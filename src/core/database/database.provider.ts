@@ -17,7 +17,17 @@ export const databaseProvider = [
           config = databaseConfig.test;
           break;
         case PRODUCTION:
-          config = databaseConfig.production;
+          config = {
+            use_env_variable: 'DATABASE_URL_PRODUCTION',
+            dialect: 'postgres',
+            logging: false,
+            dialectOptions: {
+              ssl: {
+                require: true,
+                rejectUnauthorized: false,
+              },
+            },
+          };
           forceSync = false;
           break;
         default:
