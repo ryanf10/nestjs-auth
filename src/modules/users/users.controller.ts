@@ -1,15 +1,10 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Patch,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UpdatePasswordDto } from './dtos/update-password.dto';
+import { User } from './decorators/user.decorator';
+import { User as UserEntity } from './user.entity';
 
 @Controller('users')
 export class UsersController {
@@ -17,27 +12,30 @@ export class UsersController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('/me')
-  async profile(@Request() req) {
-    const user = await this.userService.profile(req.user.id);
-    return { result: { user } };
+  async profile(@User() user: UserEntity) {
+    const data = await this.userService.profile(user.id);
+    return { result: { user: data } };
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Patch('/me')
-  async updateProfile(@Request() req, @Body() body: UpdateUserDto) {
-    const user = await this.userService.updateProfile(
-      req.user.id,
+  async updateProfile(@User() user: UserEntity, @Body() body: UpdateUserDto) {
+    const data = await this.userService.updateProfile(
+      user.id,
       body.name,
       body.gender,
     );
-    return { result: { user } };
+    return { result: { user: data } };
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Patch('/change-password')
-  async changePassword(@Request() req, @Body() body: UpdatePasswordDto) {
+  async changePassword(
+    @User() user: UserEntity,
+    @Body() body: UpdatePasswordDto,
+  ) {
     await this.userService.changePassword(
-      req.user.id,
+      user.id,
       body.old_password,
       body.new_password,
     );
