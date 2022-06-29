@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
 @Table
 export class User extends Model<User> {
@@ -27,4 +27,11 @@ export class User extends Model<User> {
     allowNull: false,
   })
   gender: string;
+
+  @Column({
+    type: DataType.ENUM,
+    values: ['admin', 'user'],
+    allowNull: false,
+  })
+  role: string;
 }

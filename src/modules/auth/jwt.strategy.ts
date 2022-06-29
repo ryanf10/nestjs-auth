@@ -1,4 +1,4 @@
-import { ExtractJwt, Strategy } from 'passport-jwt';
+import { Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
@@ -24,6 +24,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         'You are not authorized to perform the operation',
       );
     }
-    return payload;
+    return user;
   }
 }

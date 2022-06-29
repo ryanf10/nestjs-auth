@@ -5,6 +5,9 @@ import { UpdateUserDto } from './dtos/update-user.dto';
 import { UpdatePasswordDto } from './dtos/update-password.dto';
 import { User } from './decorators/user.decorator';
 import { User as UserEntity } from './user.entity';
+import { RolesGuard } from './guards/roles.guard';
+import { Roles } from './decorators/roles.decorator';
+import { Role } from './enums/role.enum';
 
 @Controller('users')
 export class UsersController {
@@ -40,5 +43,13 @@ export class UsersController {
       body.new_password,
     );
     return { messages: 'Password changed successfully' };
+  }
+
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Role.Admin)
+  @Get('/tes')
+  async tes(@User() user: UserEntity) {
+    const data = await this.userService.profile(user.id);
+    return { result: { user: data } };
   }
 }
