@@ -1,6 +1,14 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsToMany,
+  Column,
+  DataType,
+  Model,
+  Table,
+} from 'sequelize-typescript';
+import { Role } from './role.entity';
+import { UserRole } from './user-role.entity';
 
-@Table
+@Table({ tableName: 'users' })
 export class User extends Model<User> {
   @Column({
     type: DataType.STRING,
@@ -34,4 +42,7 @@ export class User extends Model<User> {
     allowNull: false,
   })
   role: string;
+
+  @BelongsToMany(() => Role, () => UserRole)
+  roles: Role[];
 }

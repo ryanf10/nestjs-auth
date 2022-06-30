@@ -1,13 +1,17 @@
-import { Injectable, Inject, ForbiddenException } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { User } from './user.entity';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { USER_REPOSITORY } from '../../core/constants';
+import { USER_REPOSITORY, USER_ROLE_REPOSITORY } from '../../core/constants';
 import * as bcrypt from 'bcrypt';
+import { UserRole } from './user-role.entity';
+import { Role } from './role.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @Inject(USER_REPOSITORY) private readonly userRepository: typeof User,
+    @Inject(USER_ROLE_REPOSITORY)
+    private readonly userRoleRepository: typeof UserRole,
   ) {}
 
   async create(user: CreateUserDto): Promise<User> {
@@ -15,11 +19,27 @@ export class UsersService {
   }
 
   async findOneByEmail(email: string): Promise<User> {
-    return await this.userRepository.findOne<User>({ where: { email } });
+    return await this.userRepository.findOne<User>({
+      where: { email },
+      include: [
+        {
+          model: Role,
+          attributes: ['id', 'roleName'],
+        },
+      ],
+    });
   }
 
   async findOneById(id: number): Promise<User> {
-    return await this.userRepository.findOne<User>({ where: { id } });
+    return await this.userRepository.findOne<User>({
+      where: { id },
+      include: [
+        {
+          model: Role,
+          attributes: ['id', 'roleName'],
+        },
+      ],
+    });
   }
 
   async profile(id: number): Promise<User> {

@@ -2,6 +2,8 @@ import { Sequelize } from 'sequelize-typescript';
 import { DEVELOPMENT, PRODUCTION, SEQUELIZE, TEST } from '../constants';
 import { databaseConfig } from './database.config';
 import { User } from '../../modules/users/user.entity';
+import { Role } from '../../modules/users/role.entity';
+import { UserRole } from '../../modules/users/user-role.entity';
 
 export const databaseProvider = [
   {
@@ -32,8 +34,7 @@ export const databaseProvider = [
           config = databaseConfig.development;
       }
       const sequelize = new Sequelize(config);
-      console.log(sequelize);
-      sequelize.addModels([User]);
+      sequelize.addModels([User, Role, UserRole]);
       await sequelize.sync({ force: forceSync });
       return sequelize;
     },
