@@ -28,7 +28,7 @@ export const databaseProvider = [
             },
           };
 
-          forceSync = false;
+          forceSync = true;
           break;
         default:
           config = databaseConfig.development;
