@@ -1,17 +1,14 @@
 import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { User } from './user.entity';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { USER_REPOSITORY, USER_ROLE_REPOSITORY } from '../../core/constants';
+import { USER_REPOSITORY } from '../../core/constants';
 import * as bcrypt from 'bcrypt';
-import { UserRole } from './user-role.entity';
 import { Role } from './role.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @Inject(USER_REPOSITORY) private readonly userRepository: typeof User,
-    @Inject(USER_ROLE_REPOSITORY)
-    private readonly userRoleRepository: typeof UserRole,
   ) {}
 
   async create(user: CreateUserDto): Promise<User> {

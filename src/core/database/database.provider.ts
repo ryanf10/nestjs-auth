@@ -10,7 +10,7 @@ export const databaseProvider = [
     provide: SEQUELIZE,
     useFactory: async () => {
       let config;
-      let forceSync = false;
+      let forceSync = true;
       switch (process.env.NODE_ENV) {
         case DEVELOPMENT:
           config = databaseConfig.development;
