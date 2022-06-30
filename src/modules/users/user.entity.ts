@@ -36,13 +36,6 @@ export class User extends Model<User> {
   })
   gender: string;
 
-  @Column({
-    type: DataType.ENUM,
-    values: ['admin', 'user'],
-    allowNull: false,
-  })
-  role: string;
-
   @BelongsToMany(() => Role, () => UserRole)
   roles: Role[];
 }
