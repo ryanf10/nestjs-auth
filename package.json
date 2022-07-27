@@ -35,7 +35,7 @@
     "dotenv": "^16.0.0",
     "mariadb": "^3.0.0",
     "mysql2": "^2.3.3",
-    "passport": "^0.5.2",
+    "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pg": "^8.7.3",
