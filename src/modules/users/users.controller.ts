@@ -48,8 +48,7 @@ export class UsersController {
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(Role.Admin)
   @Get('/tes')
-  async tes(@User() user: UserEntity) {
-    const data = await this.userService.profile(user.id);
-    return { result: { user: data } };
+  async tes() {
+    return { result: "You're authenticated and authorized!" };
   }
 }

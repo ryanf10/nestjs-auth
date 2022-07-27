@@ -10,7 +10,7 @@ export const databaseProvider = [
     provide: SEQUELIZE,
     useFactory: async () => {
       let config;
-      let forceSync = false;
+
       switch (process.env.NODE_ENV) {
         case DEVELOPMENT:
           config = databaseConfig.development;
@@ -27,15 +27,20 @@ export const databaseProvider = [
               rejectUnauthorized: false,
             },
           };
-
-          forceSync = false;
           break;
         default:
           config = databaseConfig.development;
       }
       const sequelize = new Sequelize(config);
       sequelize.addModels([User, Role, UserRole]);
-      // await sequelize.sync({ force: forceSync });
+
+      switch (process.env.NODE_ENV) {
+        case PRODUCTION:
+          break;
+        default:
+          const forceSync: boolean = process.env.FORCE_SYNC == 'true';
+          await sequelize.sync({ force: forceSync });
+      }
       return sequelize;
     },
   },

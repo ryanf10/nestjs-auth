@@ -1,10 +1,10 @@
 import {
-  Injectable,
   ArgumentMetadata,
   BadRequestException,
-  ValidationPipe,
+  Injectable,
   UnprocessableEntityException,
   ValidationError,
+  ValidationPipe,
 } from '@nestjs/common';
 
 @Injectable()
@@ -16,6 +16,7 @@ export class ValidateInputPipe extends ValidationPipe {
       },
     });
   }
+
   public async transform(value, metadata: ArgumentMetadata) {
     try {
       return await super.transform(value, metadata);
@@ -33,7 +34,7 @@ export class ValidateInputPipe extends ValidationPipe {
     errorResponse['message'] = {};
     errors.message.forEach((error) => {
       errorResponse['message'][error.property] = [];
-      for (const [key, value] of Object.entries(error.constraints)) {
+      for (const [, value] of Object.entries(error.constraints)) {
         errorResponse['message'][error.property].push(value);
       }
     });
